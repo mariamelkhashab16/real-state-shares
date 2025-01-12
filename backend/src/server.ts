@@ -1,9 +1,13 @@
 import app from './app';
+import client from './database';
 
 
-const PORT = process.env.PORT || 8080;
+client.connect()
+  .then(() => {
+    console.log('Connected to the database');
+  })
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+const BACKEND_PORT = process.env.BACKEND_PORT || 8080;
+app.listen(BACKEND_PORT, () => {
+  console.log(`Server is running on port ${BACKEND_PORT}`);
 });
