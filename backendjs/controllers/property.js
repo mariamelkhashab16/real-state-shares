@@ -1,5 +1,6 @@
 
 const { Property, PropertyType, Project } = require('../models');
+const { Sequelize } = require('sequelize');
 
 // Controller to get property details by ID
 const getPropertyById = async (req, res) => {
@@ -53,8 +54,41 @@ const addNewProperty = async (req, res) => {
   }
 }
 
+// Controller to search for properties based on query params
+const searchProperties = async (req, res) => {
+  try {
+    const { projectName } = req.query;
+    console.log("--------before--------------",projectName)
+
+  const properties = await Property.findAll(
+    {
+      include: [{
+        model: Project,
+        as: 'project',
+        attributes: ['name'],
+        where: projectName ? { name: { [Sequelize.Op.iLike]: `%${projectName}%` } } : {},
+      }],
+    
+  });
+  console.log("----------------------",properties)
+
+  if (properties.length > 0) {
+    res.status(200).json(properties);
+  } else {
+    res.status(404).json({ message: 'No properties found' });
+  }
+  } catch (error) {
+    console.log(error)
+      res.status(500).json({ message: 'Internal Server Error' });
+
+  }
+
+}
+
+
 module.exports = {
   listAllProperties,
   getPropertyById,
-  addNewProperty
+  addNewProperty,
+  searchProperties
 };

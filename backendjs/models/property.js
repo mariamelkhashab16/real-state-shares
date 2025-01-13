@@ -1,56 +1,60 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/sequelize');  
 
-const Property = sequelize.define('Property', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-  },
-  type_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'PropertyTypes', 
-      key: 'id',
-    },
-  },
-  project_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'Projects', 
-      key: 'id',
-    },
-  },
-  price: {
-    type: DataTypes.DECIMAL(10, 2), 
-    allowNull: false,
-  },
-  area: {
-    type: DataTypes.DECIMAL(5, 2), 
-    allowNull: false,
-  },
-  floor: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  bedrooms: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  bathrooms: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  reserved: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
-}, {
-  tableName: 'Properties', 
-  timestamps: true, 
-});
+  class Property extends Model {
 
-module.exports = Property;
+    static associate(models) {
+      // define association here
+      Property.belongsTo(models.Project, { foreignKey: 'project_id', as: 'project' });
+
+    }
+  }
+  
+  Property.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    project_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.DECIMAL(10, 2), 
+      allowNull: false,
+    },
+    area: {
+      type: DataTypes.DECIMAL(5, 2), 
+      allowNull: false,
+    },
+    floor: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    bedrooms: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    bathrooms: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    reserved: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+   
+  }, 
+  {
+    timestamps: true, 
+    createdAt: 'createdAt', 
+    updatedAt: 'updatedAt', 
+    sequelize,
+    modelName: 'Property',
+  });
+
+
+
+module.exports = Property

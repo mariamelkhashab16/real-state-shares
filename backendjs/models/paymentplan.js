@@ -1,18 +1,17 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class PaymentPlan extends Model {
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = require('../config/sequelize');  
 
-    static associate(models) {
-      // define association here
-      PaymentPlan.belongsTo(models.Project, {
-        foreignKey: 'project_id',
-      });
-    }
+class PaymentPlan extends Model {
+  static associate(models) {
+    // define association here
+    PaymentPlan.belongsTo(models.Project, {
+      foreignKey: 'project_id',
+    });
   }
-  PaymentPlan.init({
+}
+
+PaymentPlan.init(
+  {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -40,35 +39,30 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
     },
   },
-  { timestamps: true, 
-    createdAt: 'createdAt', 
-    updatedAt: 'updatedAt', }
-  , {
-    sequelize,
-    modelName: 'PaymentPlan',
-  },
-
-  // Custom validation to ensure only one primary payment plan per project
-  {validate: {
-    onlyOnePrimaryPaymentPlan() {
-      if (this.is_primary) {
-        return PaymentPlan.count({
-          where: {
-            project_id: this.project_id,
-            is_primary: true,
-            id: { [sequelize.Op.ne]: this.id }  // Exclude the current instance (if updating)
-          }
-        }).then(count => {
-          if (count > 0) {
-            throw new Error('A project can only have one primary payment plan');
-          }
-        });
+  {
+    sequelize, 
+    modelName: 'PaymentPlan', 
+    timestamps: true,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    validate: {
+      onlyOnePrimaryPaymentPlan() {
+        if (this.is_primary) {
+          return PaymentPlan.count({
+            where: {
+              project_id: this.project_id,
+              is_primary: true,
+              id: { [sequelize.Op.ne]: this.id },  // Exclude the current instance (if updating)
+            }
+          }).then(count => {
+            if (count > 0) {
+              throw new Error('A project can only have one primary payment plan');
+            }
+          });
+        }
       }
     }
   }
-}
 );
 
-  
-  return PaymentPlan;
-};
+module.exports = PaymentPlan;

@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const process = require('process');
+const { type } = require('os');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/sequelize-cli.js')[env];
@@ -25,7 +26,9 @@ fs
     );
   })
   .forEach(file => {
+
     const model = require(path.join(__dirname, file));
+    
     db[model.name] = model;
   });
 

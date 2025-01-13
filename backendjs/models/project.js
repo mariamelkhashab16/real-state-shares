@@ -1,14 +1,8 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = require('../config/sequelize');  
   class Project extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
     static associate(models) {
       // define association here
       Project.belongsTo(models.Developer, {
@@ -18,6 +12,12 @@ module.exports = (sequelize, DataTypes) => {
       Project.belongsTo(models.Zone, {
         foreignKey: 'zone_id',
       });
+
+      Project.hasMany(models.Property, 
+        { foreignKey: 'project_id', as: 'properties' 
+          
+        });
+
     }
   }
   
@@ -46,13 +46,10 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true, 
     createdAt: 'createdAt', 
     updatedAt: 'updatedAt', 
-  }
-  ,{
     sequelize,
     modelName: 'Project',
   });
 
 
 
-  return Project;
-};
+module.exports = Project;
