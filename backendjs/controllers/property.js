@@ -33,7 +33,28 @@ const listAllProperties = async (req, res) => {
   }
 };
 
+// Controller for creating a new property
+const addNewProperty = async (req, res) => {
+  const { type_id, project_id, price, area, floor, bedrooms, bathrooms, reserved } = req.body;
+
+  try {
+    const newProperty = await Property.create({
+      type_id,
+      project_id,
+      price,
+      area,
+      floor,
+      bedrooms,
+      bathrooms,
+    });
+    res.status(201).json(newProperty);
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating property', error });
+  }
+}
+
 module.exports = {
   listAllProperties,
-  getPropertyById
+  getPropertyById,
+  addNewProperty
 };
