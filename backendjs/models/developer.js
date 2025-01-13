@@ -1,8 +1,9 @@
-
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/sequelize');  
 
-const Developer = sequelize.define('Developer', {
+class Developer extends Model {}
+
+Developer.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -13,14 +14,12 @@ const Developer = sequelize.define('Developer', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-
-},
-{
+}, {
+  sequelize,
+  modelName: 'Developer',
   timestamps: true, 
   createdAt: 'createdAt', 
-  updatedAt: 'updatedAt', 
+  updatedAt: 'updatedAt',
 });
 
 module.exports = Developer;
-
-

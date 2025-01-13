@@ -1,3 +1,5 @@
+const propertyRoutes = require('../routes/property')
+
 const express = require('express');
 const app = express();
 
@@ -5,5 +7,6 @@ const app = express();
 app.use(express.json());  
 
 // Routes
+app.use('/property',propertyRoutes)
 
 module.exports = app;
