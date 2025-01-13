@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { listProperties } from '../urls';
 import "../styles/allProperties.css"
 const AllProperties = () => {
 
     const [properties, setProperties] = useState([])
+    const navigate = useNavigate();
 
+
+    const handleClick = (propertyId) => {
+        console.log("propertyId",propertyId)
+        navigate(`/properties/${propertyId}`)
+    }
     const fetchProperties = async () => {
         try {
             const response = await axios.get(listProperties);
@@ -26,7 +32,7 @@ const AllProperties = () => {
       <h1>All Properties</h1>
       <div>
          {properties.map((property) => (
-          <div key={property.id} className="card">
+          <div key={property.id} className="card" onClick={()=>handleClick(property.id)}>
             <h3>{property.type}</h3>
             {/* <p><strong>Developer:</strong> {property.floor}</p> */}
             <p><strong>Project:</strong> {property.project_id}</p>
