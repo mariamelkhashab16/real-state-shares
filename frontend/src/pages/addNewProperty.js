@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { property } from '../urls';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const NewPropertyForm = () => {
   const [propertyDetails, setPropertyDetails] = useState({
@@ -12,6 +13,8 @@ const NewPropertyForm = () => {
     bedrooms: '',
     bathrooms: '',
   });
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,8 +30,13 @@ const NewPropertyForm = () => {
     try {
         const response = await axios.post(property, propertyDetails);
         console.log(response.data); 
+        alert('Property added successfully!');
+        navigate('/');
+
       } catch (error) {
         console.error('Error:', error);
+        alert('Error adding property. Please try again.');
+
       }
   };
 
