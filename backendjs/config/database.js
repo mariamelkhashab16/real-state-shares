@@ -1,5 +1,5 @@
-import { Client } from 'pg';
-import dotenv from 'dotenv';
+const { Client } = require('pg');
+const dotenv = require('dotenv');
 
 
 dotenv.config();
@@ -26,4 +26,4 @@ const client = new Client({
 });
 
 
-export default client;
+module.exports = client
