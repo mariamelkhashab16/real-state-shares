@@ -11,6 +11,13 @@ const Home = () => {
         >
           Go to Dashboard
         </button>
+
+        <button
+        onClick={() => navigate('/properties/add-property')}
+        style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer', margin: '10px' }}
+      >
+        List New Property
+      </button>
       </div>
     );
   };
