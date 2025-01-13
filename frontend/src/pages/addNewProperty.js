@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { property } from '../urls';
 import axios from 'axios';
 
 const NewPropertyForm = () => {
@@ -10,10 +11,9 @@ const NewPropertyForm = () => {
     floor: '',
     bedrooms: '',
     bathrooms: '',
-    reserved: false,
   });
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setPropertyDetails({
       ...propertyDetails,
@@ -23,13 +23,13 @@ const NewPropertyForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("propertyDetails",propertyDetails)
     try {
-      const response = await axios.post('/properties', propertyDetails);
-      console.log('Property added:', response.data);
-      // Optionally, navigate to a different page after successful submission
-    } catch (error) {
-      console.error('Error adding property:', error);
-    }
+        const response = await axios.post(property, propertyDetails);
+        console.log(response.data); 
+      } catch (error) {
+        console.error('Error:', error);
+      }
   };
 
   return (
@@ -42,7 +42,7 @@ const NewPropertyForm = () => {
             type="number"
             name="type_id"
             value={propertyDetails.type_id}
-            onChange={handleChange}
+            onChange={handleInputChange}
             required
           />
         </div>
@@ -52,7 +52,7 @@ const NewPropertyForm = () => {
             type="number"
             name="project_id"
             value={propertyDetails.project_id}
-            onChange={handleChange}
+            onChange={handleInputChange}
             required
           />
         </div>
@@ -62,7 +62,7 @@ const NewPropertyForm = () => {
             type="number"
             name="price"
             value={propertyDetails.price}
-            onChange={handleChange}
+            onChange={handleInputChange}
             required
           />
         </div>
@@ -72,7 +72,7 @@ const NewPropertyForm = () => {
             type="number"
             name="area"
             value={propertyDetails.area}
-            onChange={handleChange}
+            onChange={handleInputChange}
             required
           />
         </div>
@@ -82,7 +82,7 @@ const NewPropertyForm = () => {
             type="number"
             name="floor"
             value={propertyDetails.floor}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
         </div>
         <div>
@@ -91,7 +91,7 @@ const NewPropertyForm = () => {
             type="number"
             name="bedrooms"
             value={propertyDetails.bedrooms}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
         </div>
         <div>
@@ -100,7 +100,7 @@ const NewPropertyForm = () => {
             type="number"
             name="bathrooms"
             value={propertyDetails.bathrooms}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
         </div>
 

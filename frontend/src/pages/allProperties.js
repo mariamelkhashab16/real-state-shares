@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { listProperties } from '../urls';
+import { property } from '../urls';
 import "../styles/allProperties.css"
 const AllProperties = () => {
 
@@ -15,7 +15,7 @@ const AllProperties = () => {
     }
     const fetchProperties = async () => {
         try {
-            const response = await axios.get(listProperties);
+            const response = await axios.get(property);
             console.log(response.data); 
             setProperties(response.data)
           } catch (error) {

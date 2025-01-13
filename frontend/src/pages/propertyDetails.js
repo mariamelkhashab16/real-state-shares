@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { listProperties } from '../urls';
+import { property } from '../urls';
 
 
 const PropertyDetails = () => {
@@ -10,7 +10,7 @@ const PropertyDetails = () => {
 
     const fetchPropertyDetails = async () => {
         try {
-            const response = await axios.get(listProperties+"/"+parseInt(propertyId));
+            const response = await axios.get(property+"/"+parseInt(propertyId));
             console.log(response.data); 
             setPropertyDetails(response.data)
           } catch (error) {
