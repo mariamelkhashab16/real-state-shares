@@ -1,8 +1,7 @@
-
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../config/sequelize');  
+const sequelize = require('../config/sequelize'); 
 
-const Developer = sequelize.define('Developer', {
+const PropertyType = sequelize.define('PropertyType', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -13,14 +12,12 @@ const Developer = sequelize.define('Developer', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-
 },
 {
-  timestamps: true, 
-  createdAt: 'createdAt', 
-  updatedAt: 'updatedAt', 
-});
+    timestamps: true, 
+    createdAt: 'createdAt', 
+    updatedAt: 'updatedAt', 
+  }
+);
 
-module.exports = Developer;
-
-
+module.exports = PropertyType;

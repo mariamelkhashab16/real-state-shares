@@ -17,7 +17,13 @@ const port = DB_PORT ? parseInt(DB_PORT, 10) : 5432;
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
   host: DB_HOST,
   port: port, 
-  dialect: 'postgres'
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: DB_SSL_MODE === 'require' ? {
+      require: true,  
+      rejectUnauthorized: false, 
+    } : false,
+  },
 });
 
 console.log(sequelize )
