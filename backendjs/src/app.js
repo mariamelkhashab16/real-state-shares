@@ -1,4 +1,7 @@
-const propertyRoutes = require('../routes/property')
+const propertyRouter = require('../routes/property')
+const projectRouter = require('../routes/project')
+const propertyTypeRouter = require('../routes/propertytype')
+
 const cors = require('cors');
 const express = require('express');
 
@@ -10,6 +13,8 @@ app.use(cors());
 
 
 // Routes
-app.use('/property',propertyRoutes)
+app.use('/property',propertyRouter)
+app.use('/project',projectRouter)
+app.use('/property-type',propertyTypeRouter)
 
 module.exports = app;
