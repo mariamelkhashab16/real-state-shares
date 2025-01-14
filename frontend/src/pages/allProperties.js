@@ -7,6 +7,8 @@ const AllProperties = () => {
 
     const [properties, setProperties] = useState([])
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
+
 
 
     const handleClick = (propertyId) => {
@@ -18,6 +20,7 @@ const AllProperties = () => {
             const response = await axios.get(property);
             console.log(response.data); 
             setProperties(response.data)
+            setIsLoading(false)
           } catch (error) {
             console.error('Error:', error);
           }
@@ -28,14 +31,16 @@ const AllProperties = () => {
     },[])
 
   return (
-    <div style={{ padding: '20px' }}>
+    isLoading ? (
+      <p>Loading...</p>
+    ) :
+    (<div style={{ padding: '20px' }}>
       <h1>All Properties</h1>
       <div>
          {properties.map((property) => (
           <div key={property.id} className="card" onClick={()=>handleClick(property.id)}>
-            <h3>{property.type}</h3>
-            {/* <p><strong>Developer:</strong> {property.floor}</p> */}
-            <p><strong>Project:</strong> {property.project_id}</p>
+            <h3>{property.type.name}</h3>
+            <p><strong>Project:</strong> {property.project.name + " - " +property.project.developer.name}</p>
 
             <p><strong>Price:</strong> EGP {property.price}</p>
             <p><strong>Area:</strong> {property.area} m2</p>
@@ -45,11 +50,13 @@ const AllProperties = () => {
             <p>
               <strong>Status:</strong> {property.reserved ? "Reserved" : "Available"}
             </p>
+            <p><em>Click for more details</em></p>  
+
           </div>
         ))}
       </div>
     </div>
-  );
+  ));
 };
 
 export default AllProperties;

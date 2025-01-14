@@ -7,6 +7,7 @@ const sequelize = require('../config/sequelize');
       // define association here
       Project.belongsTo(models.Developer, {
         foreignKey: 'developer_id',
+        as: 'developer'
       });
 
       Project.belongsTo(models.Zone, {
@@ -17,7 +18,11 @@ const sequelize = require('../config/sequelize');
         { foreignKey: 'project_id', as: 'properties' 
           
         });
-
+      
+        Project.hasMany(models.PaymentPlan, 
+          { foreignKey: 'project_id', as: 'paymentplans' 
+            
+          });
     }
   }
   

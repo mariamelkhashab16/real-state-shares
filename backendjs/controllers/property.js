@@ -1,10 +1,11 @@
 
 const { Property, PropertyType, Project } = require('../models');
 const { Sequelize } = require('sequelize');
+const {getAllPropertiesDetails} = require('../services/property')
 
 // Controller to get property details by ID
 const getPropertyById = async (req, res) => {
-  const { id } = req.params;  // Extracting the property id from the URL parameter
+  const { id } = req.params;  
 
   try {
     const property = await Property.findOne({
@@ -26,7 +27,7 @@ const getPropertyById = async (req, res) => {
 // Controller for listing all properties
 const listAllProperties = async (req, res) => {
   try {
-    const properties = await Property.findAll();
+    const properties = await getAllPropertiesDetails();
     res.status(200).json(properties);  
   } catch (error) {
     console.error("Error fetching properties:", error);
@@ -58,15 +59,15 @@ const addNewProperty = async (req, res) => {
 // Controller to search for properties based on query params
 const searchProperties = async (req, res) => {
   try {
-    const { projectName } = req.query;
-
+    const { name } = req.query;
+    console.log(name)
   const properties = await Property.findAll(
     {
       include: [{
         model: Project,
         as: 'project',
         attributes: ['name'],
-        where: projectName ? { name: { [Sequelize.Op.iLike]: `%${projectName}%` } } : {},
+        where: name ? { name: { [Sequelize.Op.iLike]: `%${name}%` } } : {},
       }],
     
   });
