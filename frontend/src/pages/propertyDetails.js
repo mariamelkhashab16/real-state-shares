@@ -7,11 +7,13 @@ import { property } from '../urls';
 const PropertyDetails = () => {
     const { propertyId } = useParams();
     const [propertyDetails, setPropertyDetails] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchPropertyDetails = async () => {
         try {
             const response = await axios.get(property+"/"+parseInt(propertyId));
             console.log(response.data); 
+            setIsLoading(false)
             setPropertyDetails(response.data)
           } catch (error) {
             console.error('Error:', error);
@@ -22,17 +24,20 @@ const PropertyDetails = () => {
         fetchPropertyDetails()
     },[propertyId])
 
-        return (
-            <div >
-              <h1>Property</h1>
-              <p>Price: EGP {propertyDetails.price}</p>
-              <p>Area: {propertyDetails.area} m2</p>
-              <p>Floor: {propertyDetails.floor}</p>
-              <p>Bedrooms: {propertyDetails.bedrooms}</p>
-              <p>Bathrooms: {propertyDetails.bathrooms}</p>
-              <p>Reserved: {propertyDetails.reserved ? "Yes" : "No"}</p>
-            </div>
-          );
+    return isLoading ? (
+      <p>Loading...</p>
+    ) : (
+      <div>
+        <h1>Property</h1>
+        <p>Price: EGP {propertyDetails.price}</p>
+        <p>Area: {propertyDetails.area} m2</p>
+        <p>Floor: {propertyDetails.floor}</p>
+        <p>Bedrooms: {propertyDetails.bedrooms}</p>
+        <p>Bathrooms: {propertyDetails.bathrooms}</p>
+        <p>Reserved: {propertyDetails.reserved ? "Yes" : "No"}</p>
+      </div>
+    );
+    
     };
 
 
