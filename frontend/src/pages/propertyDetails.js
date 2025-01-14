@@ -19,7 +19,6 @@ const PropertyDetails = () => {
     }
 
     useEffect(()=>{
-        console.log(propertyId)
         fetchPropertyDetails()
     },[propertyId])
 

@@ -58,7 +58,6 @@ const addNewProperty = async (req, res) => {
 const searchProperties = async (req, res) => {
   try {
     const { projectName } = req.query;
-    console.log("--------before--------------",projectName)
 
   const properties = await Property.findAll(
     {
@@ -70,7 +69,6 @@ const searchProperties = async (req, res) => {
       }],
     
   });
-  console.log("----------------------",properties)
 
   if (properties.length > 0) {
     res.status(200).json(properties);
@@ -78,7 +76,6 @@ const searchProperties = async (req, res) => {
     res.status(404).json({ message: 'No properties found' });
   }
   } catch (error) {
-    console.log(error)
       res.status(500).json({ message: 'Internal Server Error' });
 
   }
