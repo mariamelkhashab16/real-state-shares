@@ -7,6 +7,8 @@ const sequelize = require('../config/sequelize');
       // define association here
       Property.belongsTo(models.Project, { foreignKey: 'project_id', as: 'project' });
 
+      Property.belongsTo(models.PropertyType, { foreignKey: 'type_id', as: 'type' });
+
     }
   }
   
@@ -18,6 +20,10 @@ const sequelize = require('../config/sequelize');
       allowNull: false,
     },
     project_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    type_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

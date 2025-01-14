@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { property } from '../urls';
+import React, { useEffect, useState } from 'react';
+import { property,propertyType, project } from '../urls';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,6 +13,9 @@ const NewPropertyForm = () => {
     bedrooms: '',
     bathrooms: '',
   });
+
+  const [projects, setProjects] = useState([])
+  const [propertyTypes, setPropertyTypes] = useState([])
 
   const navigate = useNavigate();
 
@@ -40,30 +43,80 @@ const NewPropertyForm = () => {
       }
   };
 
+  const fetchProjects = async () => {
+    try {
+      const response = await axios.get(project);
+      console.log(response.data); 
+      setProjects(response.data)
+    } catch (error) {
+      
+    }
+  }
+
+  const fetchPropertyTypes = async () => {
+    try {
+      const response = await axios.get(propertyType);
+      console.log(response.data);
+      setPropertyTypes(response.data)
+ 
+    } catch (error) {
+      
+    }
+  }
+
+  useEffect(()=>{
+    fetchProjects()
+    fetchPropertyTypes()
+  },[])
+
+  useEffect(()=>{
+   console.log(propertyDetails)
+  },[propertyDetails])
+
   return (
     <div style={{ padding: '20px' }}>
       <h1>List New Property</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Type ID:</label>
-          <input
-            type="number"
+          <label> Property Type:</label>
+          <select
+            id="type_id"
             name="type_id"
             value={propertyDetails.type_id}
             onChange={handleInputChange}
             required
-          />
+          >
+            <option value="" >
+              Select Type
+            </option>
+            {propertyTypes.map((type) => (
+              <option key={type.id} value={type.id}>
+                {type.name}
+              </option>
+        ))}
+      </select>
         </div>
+
         <div>
-          <label>Project ID:</label>
-          <input
-            type="number"
-            name="project_id"
-            value={propertyDetails.project_id}
-            onChange={handleInputChange}
-            required
-          />
+          <label>Project Name:</label>
+          <select
+        id="project_id"
+        name="project_id"
+        value={propertyDetails.project_id}
+        onChange={handleInputChange}
+        required
+      >
+        <option value="" disabled>
+          Select Type
+        </option>
+        {projects.map((project) => (
+          <option key={project.id} value={project.id}>
+            {project.name}
+          </option>
+        ))}
+      </select>
         </div>
+
         <div>
           <label>Price:</label>
           <input
