@@ -19,11 +19,13 @@ sudo docker-compose up
 - [x] getting appartment details
 - [x] adding appartments
 - [x] search for appartments by filters
+- [x] pagination
 
 ## Future improvements
 - [] Authentication and authorization for users
 - [] Images for properties
 - [] Activations between customer and his booked property
+- [] Add more filtering functionalities (price, appartment type,...)
 
 
 ![ER diagram for the database design](ERdiagram.png)

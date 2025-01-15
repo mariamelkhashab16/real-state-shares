@@ -1,5 +1,6 @@
 const { Property, PropertyType, Project, Developer, PaymentPlan, Zone } = require('../models');
 const { Sequelize } = require('sequelize');
+const { defaultPageSize} = require('../config/config')
 
 
 const getPropertyDetails = async (propertyId) => {
@@ -27,10 +28,12 @@ const getPropertyDetails = async (propertyId) => {
 
 }
 
-const getAllPropertiesDetails = async (filters = {}) => {
+const getAllPropertiesDetails = async (filters = {}, currPage= 1, pageSize=defaultPageSize) => {
   const { projectName, devName, areaName} = filters;
+  const offset = (currPage - 1) * pageSize 
+  const limit = pageSize
 
-  return await Property.findAll(
+  const {count, rows} =  await Property.findAndCountAll(
     {
       include: [{
         model: Project,
@@ -63,8 +66,19 @@ const getAllPropertiesDetails = async (filters = {}) => {
         as: 'type',
         attributes: ['name'],
       },],
-    
+      offset, limit
+
   });
+  return {
+    data: rows,
+    paginationDetails: {
+      totalCount: count,
+      currPage: currPage,
+      pageSize: pageSize,
+      totalPagesCount: Math.ceil(count/pageSize)
+    }
+
+  }
 }
 
 const createNewProperty = async (params) => {

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { property } from '../urls';
 import Property from '../components/property';
+import Pagination from '../components/pagination';
 import "../styles/allProperties.css"
 const AllProperties = () => {
 
@@ -50,7 +51,10 @@ const AllProperties = () => {
           </div>
         ))}
       </div>
+      <Pagination/>
     </div>
+
+    
   ));
 };
 

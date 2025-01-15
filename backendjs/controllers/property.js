@@ -23,7 +23,8 @@ const getPropertyById = async (req, res) => {
 // Controller for listing all properties
 const listAllProperties = async (req, res) => {
   try {
-    const properties = await getAllPropertiesDetails();
+    const result = await getAllPropertiesDetails();
+    properties = result.data
     res.status(200).json(properties);  
   } catch (error) {
     console.error("Error fetching properties:", error);
@@ -46,8 +47,8 @@ const addNewProperty = async (req, res) => {
 // Controller to search for properties based on query params
 const searchProperties = async (req, res) => {
   try {
-  const properties = await getAllPropertiesDetails(req.query)
-
+  const result = await getAllPropertiesDetails(req.query)
+  properties = result.data
   if (properties.length > 0) {
     res.status(200).json(properties);
   } else {
