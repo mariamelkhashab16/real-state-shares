@@ -14,10 +14,16 @@ you may need super user privilege
 sudo docker-compose up
 ```
 
-*** Current state of the database is populated with seed and some testing data
-
 ## Features checklist:
 - [x] listing appartments
 - [x] getting appartment details
 - [x] adding appartments
 - [x] search for appartments by filters
+
+## Future improvements
+- [] Authentication and authorization for users
+- [] Images for properties
+- [] Activations between customer and his booked property
+
+
+![ER diagram for the database design](ERdiagram.png)
