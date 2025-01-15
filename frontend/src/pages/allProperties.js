@@ -48,18 +48,26 @@ const AllProperties = () => {
     isLoading ? (
       <p>Loading...</p>
     ) :
-    (<div >
+    (
+    <div >
       <h1>All Properties</h1>
+      {properties && properties.length > 0 ? (
       <div>
-         {properties.map((property) => (
-          <div key={property.id} className="card" onClick={()=>handleClick(property.id)}>
-            <Property property={property}/>
-            <p><em>Click for more details</em></p>  
-
+        {properties.map((property) => (
+          <div key={property.id} className="card" onClick={() => handleClick(property.id)}>
+            <Property property={property} />
+            <p><em>Click for more details</em></p>
           </div>
         ))}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={paginationDetails.totalPagesCount}
+          handlePageChange={handlePageChange}
+        />
       </div>
-      <Pagination currentPage={currentPage} totalPages={paginationDetails.totalPagesCount} handlePageChange={handlePageChange}/>
+    ) : (
+      <p>No properties found.</p>
+    )}
     </div>
 
     

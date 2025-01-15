@@ -18,6 +18,7 @@ const PropertyDetails = () => {
             setPropertyDetails(response.data)
           } catch (error) {
             console.error('Error:', error);
+            alert(error.response.data)
           }
     }
     
