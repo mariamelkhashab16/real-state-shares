@@ -1,16 +1,17 @@
 
 const { Property, PropertyType, Project } = require('../models');
 const { Sequelize } = require('sequelize');
-const {getAllPropertiesDetails} = require('../services/property')
+const {getAllPropertiesDetails, getPropertyDetails} = require('../services/property')
 
 // Controller to get property details by ID
 const getPropertyById = async (req, res) => {
   const { id } = req.params;  
 
   try {
-    const property = await Property.findOne({
-      where: { id },
-    });
+    const property = await getPropertyDetails(id)
+    //  Property.findOne({
+    //   where: { id },
+    // });
 
     if (!property) {
       return res.status(404).json({ message: 'Property not found' });
