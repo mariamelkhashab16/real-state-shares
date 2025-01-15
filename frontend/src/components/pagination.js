@@ -1,19 +1,19 @@
 import React from 'react';
 
-const Pagination = () => {
+const Pagination = ({currentPage, totalPages, handlePageChange}) => {
     return(
         <div className="pagination">
         <button 
-        // onClick={() => handlePageChange(pagination.currentPage - 1)} disabled={pagination.currentPage === 1}
+        onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}
           >
           Previous
         </button>
         <span>
-          {/* Page {pagination.currentPage} of {pagination.totalPages} */}
+          Page {currentPage} of {totalPages}
 
         </span>
         <button
-        //  onClick={() => handlePageChange(pagination.currentPage + 1)} disabled={pagination.currentPage === pagination.totalPages}
+         onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}
          >
           Next
         </button>

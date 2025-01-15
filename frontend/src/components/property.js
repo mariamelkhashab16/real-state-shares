@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Property = ({ property }) => {
-    console.log("property",property)
   return (
     <div className="card">
       <h3>{property.type.name}</h3>

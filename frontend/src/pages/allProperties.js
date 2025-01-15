@@ -7,35 +7,43 @@ import Pagination from '../components/pagination';
 import "../styles/allProperties.css"
 const AllProperties = () => {
 
-    const [properties, setProperties] = useState([])
     const location = useLocation();
     const navigate = useNavigate();
+    const [properties, setProperties] = useState([])
     const [isLoading, setIsLoading] = useState(true);
+    const [paginationDetails, setPaginationDetails] = useState({})
+    const [currentPage, setCurrentPage] = useState(1)
 
-
-
+    
     const handleClick = (propertyId) => {
         console.log("propertyId",propertyId)
         navigate(`/properties/${propertyId}`)
     }
     const fetchProperties = async () => {
         try {
-            const propertyURL = location.search ? property + "/search" +location.search : property
+            let propertyURL = location.search ? property + location.search : property; 
+            propertyURL += location.search ? '&' : '?'; 
+            propertyURL += `page=${parseInt(currentPage)}`; 
+          
             console.log(propertyURL)
             const response = await axios.get(propertyURL);
-            console.log(response.data); 
-            setProperties(response.data)
+            setProperties(response.data.data)
             setIsLoading(false)
+            setPaginationDetails(response.data.paginationDetails)
+            setCurrentPage(parseInt(response.data.paginationDetails.currPage))
           } catch (error) {
             console.error('Error:', error);
           }
     }
 
-    useEffect(()=>{
-      console.log("location", location)
-        fetchProperties()
-    },[])
+    const handlePageChange = (newPage) => {
+      setCurrentPage(newPage)
 
+    }
+    useEffect(()=>{
+        fetchProperties()
+    },[currentPage])
+    
   return (
     isLoading ? (
       <p>Loading...</p>
@@ -51,7 +59,7 @@ const AllProperties = () => {
           </div>
         ))}
       </div>
-      <Pagination/>
+      <Pagination currentPage={currentPage} totalPages={paginationDetails.totalPagesCount} handlePageChange={handlePageChange}/>
     </div>
 
     

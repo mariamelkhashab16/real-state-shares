@@ -23,9 +23,9 @@ const getPropertyById = async (req, res) => {
 // Controller for listing all properties
 const listAllProperties = async (req, res) => {
   try {
-    const result = await getAllPropertiesDetails();
-    properties = result.data
-    res.status(200).json(properties);  
+    const result = await getAllPropertiesDetails(filters=req.query)
+    // properties = result.data
+    res.status(200).json(result);  
   } catch (error) {
     console.error("Error fetching properties:", error);
     res.status(500).json({ message: 'Internal Server Error' });
@@ -44,28 +44,9 @@ const addNewProperty = async (req, res) => {
   }
 }
 
-// Controller to search for properties based on query params
-const searchProperties = async (req, res) => {
-  try {
-  const result = await getAllPropertiesDetails(req.query)
-  properties = result.data
-  if (properties.length > 0) {
-    res.status(200).json(properties);
-  } else {
-    res.status(404).json({ message: 'No properties found' });
-  }
-  } catch (error) {
-    console.log(error)
-      res.status(500).json({ message: 'Internal Server Error' });
-
-  }
-
-}
 
 
 module.exports = {
   listAllProperties,
   getPropertyById,
-  addNewProperty,
-  searchProperties
-};
+  addNewProperty};

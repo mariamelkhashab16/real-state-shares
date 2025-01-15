@@ -28,11 +28,12 @@ const getPropertyDetails = async (propertyId) => {
 
 }
 
-const getAllPropertiesDetails = async (filters = {}, currPage= 1, pageSize=defaultPageSize) => {
-  const { projectName, devName, areaName} = filters;
+const getAllPropertiesDetails = async (filters = {}, pageSize=defaultPageSize) => {
+  const { projectName, devName, areaName, page=1} = filters;
+  const currPage = page
   const offset = (currPage - 1) * pageSize 
   const limit = pageSize
-
+  console.log(filters,pageSize)
   const {count, rows} =  await Property.findAndCountAll(
     {
       include: [{
@@ -66,9 +67,11 @@ const getAllPropertiesDetails = async (filters = {}, currPage= 1, pageSize=defau
         as: 'type',
         attributes: ['name'],
       },],
-      offset, limit
+      offset,
+      limit, 
 
   });
+
   return {
     data: rows,
     paginationDetails: {
