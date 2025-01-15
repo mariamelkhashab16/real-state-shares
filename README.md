@@ -19,6 +19,10 @@ you may need super user privilege
 ```bash
 sudo docker-compose up
 ```
+### 3. Find the app running on 
+```bash
+http://localhost:3008/
+```
 
 ## Features checklist:
 - [x] listing appartments
