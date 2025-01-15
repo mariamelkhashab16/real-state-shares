@@ -12,6 +12,7 @@ const sequelize = require('../config/sequelize');
 
       Project.belongsTo(models.Zone, {
         foreignKey: 'zone_id',
+        as: 'zone'
       });
 
       Project.hasMany(models.Property, 

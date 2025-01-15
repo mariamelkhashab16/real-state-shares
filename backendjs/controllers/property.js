@@ -1,7 +1,5 @@
 
-const { Property, PropertyType, Project } = require('../models');
-const { Sequelize } = require('sequelize');
-const {getAllPropertiesDetails, getPropertyDetails} = require('../services/property')
+const {getAllPropertiesDetails, getPropertyDetails, searchPropertiesByFilter, createNewProperty} = require('../services/property')
 
 // Controller to get property details by ID
 const getPropertyById = async (req, res) => {
@@ -9,9 +7,6 @@ const getPropertyById = async (req, res) => {
 
   try {
     const property = await getPropertyDetails(id)
-    //  Property.findOne({
-    //   where: { id },
-    // });
 
     if (!property) {
       return res.status(404).json({ message: 'Property not found' });
@@ -38,18 +33,9 @@ const listAllProperties = async (req, res) => {
 
 // Controller for creating a new property
 const addNewProperty = async (req, res) => {
-  const { type_id, project_id, price, area, floor, bedrooms, bathrooms, reserved } = req.body;
 
   try {
-    const newProperty = await Property.create({
-      type_id,
-      project_id,
-      price,
-      area,
-      floor,
-      bedrooms,
-      bathrooms,
-    });
+    const newProperty = await createNewProperty(req.body)
     res.status(201).json(newProperty);
   } catch (error) {
     console.log(error)
@@ -60,18 +46,7 @@ const addNewProperty = async (req, res) => {
 // Controller to search for properties based on query params
 const searchProperties = async (req, res) => {
   try {
-    const { name } = req.query;
-    console.log(name)
-  const properties = await Property.findAll(
-    {
-      include: [{
-        model: Project,
-        as: 'project',
-        attributes: ['name'],
-        where: name ? { name: { [Sequelize.Op.iLike]: `%${name}%` } } : {},
-      }],
-    
-  });
+  const properties = await searchPropertiesByFilter(req.query)
 
   if (properties.length > 0) {
     res.status(200).json(properties);
@@ -79,6 +54,7 @@ const searchProperties = async (req, res) => {
     res.status(404).json({ message: 'No properties found' });
   }
   } catch (error) {
+    console.log(error)
       res.status(500).json({ message: 'Internal Server Error' });
 
   }

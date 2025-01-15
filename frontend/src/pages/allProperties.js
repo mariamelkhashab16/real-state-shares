@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { property } from '../urls';
 import Property from '../components/property';
@@ -7,6 +7,7 @@ import "../styles/allProperties.css"
 const AllProperties = () => {
 
     const [properties, setProperties] = useState([])
+    const location = useLocation();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -18,7 +19,9 @@ const AllProperties = () => {
     }
     const fetchProperties = async () => {
         try {
-            const response = await axios.get(property);
+            const propertyURL = location.search ? property + "/search" +location.search : property
+            console.log(propertyURL)
+            const response = await axios.get(propertyURL);
             console.log(response.data); 
             setProperties(response.data)
             setIsLoading(false)
@@ -28,6 +31,7 @@ const AllProperties = () => {
     }
 
     useEffect(()=>{
+      console.log("location", location)
         fetchProperties()
     },[])
 

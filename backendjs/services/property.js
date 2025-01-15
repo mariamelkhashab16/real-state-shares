@@ -1,4 +1,5 @@
-const { Property, PropertyType, Project, Developer, PaymentPlan } = require('../models');
+const { Property, PropertyType, Project, Developer, PaymentPlan, Zone } = require('../models');
+const { Sequelize } = require('sequelize');
 
 
 const getAllPropertiesDetails = async () => {
@@ -48,7 +49,57 @@ const getPropertyDetails = async (propertyId) => {
 
 }
 
+const searchPropertiesByFilter = async (filters) => {
+  const { projectName, devName, areaName} = filters;
+
+  return await Property.findAll(
+    {
+      include: [{
+        model: Project,
+        as: 'project',
+        attributes: ['name'],
+        where: projectName ? { name: { [Sequelize.Op.iLike]: `%${projectName}%` } } : {},
+        include: [
+          { model: Developer, 
+            as: 'developer', 
+            attributes: ['name'],
+            where: devName ? { name: { [Sequelize.Op.iLike]: `%${devName}%` } } : {},
+            
+          },
+          { model: Zone, 
+            as: 'zone', 
+            attributes: ['name'],
+            where: areaName ? { name: { [Sequelize.Op.iLike]: `%${areaName}%` } } : {},
+            
+          },
+
+        ],
+      },
+      {
+        model: PropertyType,
+        as: 'type',
+        attributes: ['name'],
+      },],
+    
+  });
+}
+
+const createNewProperty = async (params) => {
+  const { type_id, project_id, price, area, floor, bedrooms, bathrooms, reserved } = params
+
+  return await Property.create({
+    type_id,
+    project_id,
+    price,
+    area,
+    floor,
+    bedrooms,
+    bathrooms,
+  });
+}
 module.exports = {
     getAllPropertiesDetails,
-    getPropertyDetails
+    getPropertyDetails,
+    searchPropertiesByFilter,
+    createNewProperty
 }
