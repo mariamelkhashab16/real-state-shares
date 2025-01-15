@@ -13,7 +13,6 @@ const PropertyDetails = () => {
     const fetchPropertyDetails = async () => {
         try {
             const response = await axios.get(property+"/"+parseInt(propertyId));
-            console.log("fetchPropertyDetails",response.data); 
             setIsLoading(false)
             setPropertyDetails(response.data)
           } catch (error) {

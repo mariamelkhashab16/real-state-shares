@@ -6,6 +6,12 @@ A NodeJS/ReactJS application for listing appartments
 - PostgreSQL for relational database
 
 ## Running the application with docker
+### 1. Clone the repository and move to the root directory
+```bash
+git clone https://github.com/mariamelkhashab16/real-state-shares
+cd real-state-shares
+```
+### 2. Run the docker container
 ```bash
 docker-compose up
 ```

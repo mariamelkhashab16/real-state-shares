@@ -16,7 +16,6 @@ const AllProperties = () => {
 
     
     const handleClick = (propertyId) => {
-        console.log("propertyId",propertyId)
         navigate(`/properties/${propertyId}`)
     }
     const fetchProperties = async () => {
@@ -25,7 +24,6 @@ const AllProperties = () => {
             propertyURL += location.search ? '&' : '?'; 
             propertyURL += `page=${parseInt(currentPage)}`; 
           
-            console.log(propertyURL)
             const response = await axios.get(propertyURL);
             setProperties(response.data.data)
             setIsLoading(false)

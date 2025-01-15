@@ -1,3 +1,4 @@
+// config file for the Sequalize ORM
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 

@@ -29,10 +29,8 @@ const NewPropertyForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("propertyDetails",propertyDetails)
     try {
         const response = await axios.post(property, propertyDetails);
-        console.log(response.data); 
         alert('Property added successfully!');
         navigate('/');
 
@@ -46,7 +44,6 @@ const NewPropertyForm = () => {
   const fetchProjects = async () => {
     try {
       const response = await axios.get(project);
-      console.log(response.data); 
       setProjects(response.data)
     } catch (error) {
       
@@ -56,7 +53,6 @@ const NewPropertyForm = () => {
   const fetchPropertyTypes = async () => {
     try {
       const response = await axios.get(propertyType);
-      console.log(response.data);
       setPropertyTypes(response.data)
  
     } catch (error) {
@@ -69,9 +65,7 @@ const NewPropertyForm = () => {
     fetchPropertyTypes()
   },[])
 
-  useEffect(()=>{
-   console.log(propertyDetails)
-  },[propertyDetails])
+
 
   return (
     <div style={{ padding: '20px' }}>

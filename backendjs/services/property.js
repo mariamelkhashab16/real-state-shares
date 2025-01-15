@@ -2,7 +2,12 @@ const { Property, PropertyType, Project, Developer, PaymentPlan, Zone } = requir
 const { Sequelize } = require('sequelize');
 const { defaultPageSize} = require('../config/config')
 
-
+/**
+ * @async
+ * @function getPropertyDetails
+ * @param {number} propertyId
+ * @returns {Promise} Property details or null if no property is found
+ */
 const getPropertyDetails = async (propertyId) => {
   return await Property.findOne({
     include: [
@@ -28,12 +33,12 @@ const getPropertyDetails = async (propertyId) => {
 
 }
 
+// Service to get all properties details
 const getAllPropertiesDetails = async (filters = {}, pageSize=defaultPageSize) => {
   const { projectName, devName, areaName, page=1} = filters;
   const currPage = page
   const offset = (currPage - 1) * pageSize 
   const limit = pageSize
-  console.log(filters,pageSize)
   const {count, rows} =  await Property.findAndCountAll(
     {
       include: [{
@@ -72,18 +77,19 @@ const getAllPropertiesDetails = async (filters = {}, pageSize=defaultPageSize) =
 
   });
 
-  return {
-    data: rows,
+  return { // For pagination purposes
+    data: rows, 
     paginationDetails: {
-      totalCount: count,
-      currPage: currPage,
-      pageSize: pageSize,
-      totalPagesCount: Math.ceil(count/pageSize)
+      totalCount: count, // total count of rows matching the filter criteria
+      currPage: currPage, // requested page, 1 by default 
+      pageSize: pageSize, // limit of rows per page
+      totalPagesCount: Math.ceil(count/pageSize) 
     }
 
   }
 }
 
+// Service to create a new property based on passed request body
 const createNewProperty = async (params) => {
   const { type_id, project_id, price, area, floor, bedrooms, bathrooms, reserved } = params
 

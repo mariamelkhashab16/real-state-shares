@@ -1,6 +1,6 @@
 const { Zone } = require('../models');
 
-// Controller for listing all zone
+// Controller for listing all zones
 const listAllZones = async (req, res) => {
     try {
       const zones = await Zone.findAll();

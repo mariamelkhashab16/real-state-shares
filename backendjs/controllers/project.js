@@ -1,6 +1,7 @@
 const {  Project } = require('../models');
 
 
+// Controller to get all projects
 const listAllProjects = async (req, res) => {
     try {
       const projects = await Project.findAll();

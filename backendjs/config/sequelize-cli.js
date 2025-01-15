@@ -1,3 +1,5 @@
+// config file for the sequalize CLI
+// CLI is a tool for automating common sequalize tasks (model generation, seeding, migrations,..) 
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 

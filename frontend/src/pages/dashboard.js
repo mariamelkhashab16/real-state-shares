@@ -15,7 +15,6 @@ const Dashboard = () => {
   const fetchAllZones = async () => {
     try {
       const response = await axios.get(zone);
-      console.log(response.data); 
       setZones(response.data)
     } catch (error) {
       console.error('Error:', error);
@@ -34,9 +33,6 @@ const Dashboard = () => {
     fetchAllZones()
   }, [])
 
-  useEffect(()=> {
-    console.log("searchDetails",searchDetails)
-  }, [searchDetails])
 
   const handleSearch = () => {
     const params = new URLSearchParams();
