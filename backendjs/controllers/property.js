@@ -1,5 +1,5 @@
 
-const {getAllPropertiesDetails, getPropertyDetails, searchPropertiesByFilter, createNewProperty} = require('../services/property')
+const {getAllPropertiesDetails, getPropertyDetails, createNewProperty} = require('../services/property')
 
 // Controller to get property details by ID
 const getPropertyById = async (req, res) => {
@@ -46,7 +46,7 @@ const addNewProperty = async (req, res) => {
 // Controller to search for properties based on query params
 const searchProperties = async (req, res) => {
   try {
-  const properties = await searchPropertiesByFilter(req.query)
+  const properties = await getAllPropertiesDetails(req.query)
 
   if (properties.length > 0) {
     res.status(200).json(properties);
